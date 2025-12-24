@@ -27,7 +27,7 @@ public class firstProject {
 
                 case "1":
 
-                    if(countNumbers>=10){
+                    if(countNumbers>=phoneNumbers.length){
                         System.out.println("Освободите место в книге!"); break;
                     }else{
                         for (int i = 0; i < phoneNumbers.length; i++) {
