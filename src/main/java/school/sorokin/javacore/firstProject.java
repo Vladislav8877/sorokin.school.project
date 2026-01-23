@@ -1,0 +1,100 @@
+package school.sorokin.javacore;
+import java.util.Scanner;
+
+public class firstProject {
+
+    static Scanner sc = new Scanner(System.in);
+    static String[] phoneNames = new String[10];
+    static String[] phoneNumbers = new String[10];
+    static int countNumbers = 0;
+    static String choice;
+
+    public static void main(String[] args) {
+
+        do{
+            System.out.println("||||ТЕЛЕФОННАЯ КНИГА||||");
+            System.out.println("      МЕНЮ");
+            System.out.println("(1) - Добавить контакт");
+            System.out.println("(2) - Просмотреть контакты");
+            System.out.println("(3) - Найти контакт");
+            System.out.println("(4) - Удалить контакт");
+            System.out.println("(0) - Выйти");
+            System.out.print("Сделай правильный выбор: ");
+            boolean notSearch = true;
+            choice = sc.nextLine();
+
+            switch (choice) {
+
+                case "1":
+
+                    if(countNumbers>=phoneNumbers.length){
+                        System.out.println("Освободите место в книге!"); break;
+                    }else{
+                        for (int i = 0; i < phoneNumbers.length; i++) {
+                            if (phoneNumbers[i] == null) {
+                                System.out.print("Введите номер телефона: ");
+                                String number = sc.nextLine().trim();
+                                if (!number.isEmpty() && number.matches("[0-9]+")) {
+                                    System.out.print("Введите имя абонента: ");
+                                    String name = sc.nextLine().trim();
+
+                                    phoneNumbers[i] = number;
+                                    phoneNames[i] = name;
+                                    countNumbers++;
+                                    System.out.println("Контакт создан");
+                                    break;
+                                } else {
+                                    System.out.println("Номер должен содержать цифры");
+                                }
+                            }
+                        }
+                    } break;
+
+                case "2":
+                    for(int i = 0; i < phoneNumbers.length; i++) {
+                        if (phoneNumbers[i] != null) {
+                            System.out.println(String.format((i + 1) + ". %s - %s", phoneNames[i], phoneNumbers[i]));
+                        }
+                    }System.out.println("Количество абонентов: "+countNumbers); break;
+
+                case "3":
+                    System.out.print("Имя для поиска: ");
+                    String search = sc.nextLine().trim();
+                    for(int i = 0; i < phoneNames.length; i++){
+                        if(search.equalsIgnoreCase(phoneNames[i])){
+                            System.out.println("Телефон "+phoneNames[i]+": "+phoneNumbers[i]);
+                            notSearch = false;
+                        }
+                    } if(notSearch){
+                    System.out.println("Контакт с именем \""+search+"\" не найден.");} break;
+
+                case "4":
+                    System.out.print("Введите имя: ");
+                    String searchDelete = sc.nextLine().trim();
+                    for(int i = 0; i < phoneNames.length; i++){
+                        if(searchDelete.equalsIgnoreCase(phoneNames[i])){
+                            notSearch = false;
+                            System.out.print(String.format("Удалить номер: \"%s - %s\"(да/нет): ",
+                                    phoneNames[i], phoneNumbers[i]));
+                            String delete = sc.nextLine().trim();
+
+                            switch(delete.toLowerCase()){
+                                case "да": phoneNames[i]=null; phoneNumbers[i]=null; countNumbers--; break;
+                                case "нет": break;
+                                default: System.out.println("Некорректный ввод!");
+                            }
+                        }
+                    }if(notSearch){
+                    System.out.println("Абонент \""+searchDelete+"\" не найден");} break;
+
+                default:
+                    if (choice.equals("0")){
+                        System.out.println("OFF");
+                    } else {
+                        System.out.println("Некорректный ввод!");
+                    }
+
+            }
+        } while(!choice.equals("0"));
+    }
+}
